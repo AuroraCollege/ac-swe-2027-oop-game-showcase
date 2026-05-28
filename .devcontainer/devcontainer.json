@@ -9,7 +9,7 @@
         "plaintext": false,
         "markdown": false
       }
-    }
+    },
       "extensions": [
         "ms-python.python"
       ]
