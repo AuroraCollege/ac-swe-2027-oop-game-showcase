@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+<!-- see https://flask.palletsprojects.com/en/stable/patterns/javascript/ -->
+{% block body %} 
+<style>
+iframe {
+border: none;
+background: RGB(3, 7, 7);
+overflow: hidden;
+width: 100%;
+height: 90vh;
+}
+</style>
+<body>
+    <h1>tetris</h1>
+    <button onclick="sendInput('left')">left</button>
+    <button onclick="sendInput('right')">right</button>
+    <button onclick="sendInput('rotate')">rotate</button>
+    <button onclick="sendInput('hard_drop')">hard drop</button>
+    <iframe id="internal" frameborder="0" noresize="noresize" scrolling="no" src="{{ url_for('tetris_internal') }}"> </iframe>
+    <script>
+        function sendInput(dir){
+            var request = new XMLHttpRequest()
+            request.open("POST", "/tetris_input/" + dir, true)
+            request.send()
+        }
+    </script>
+</body>
+{% endblock %}
