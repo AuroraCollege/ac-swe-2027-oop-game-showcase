@@ -3,6 +3,7 @@ from wumpus import HuntTheWumpus
 from ScissorsPaperRock import ScissorsPaperRock
 from snake import SnakeGame
 from NumberGuessingGame import NumberGuessingGame
+from tetris import TetrisGame
 
 from minesweeper import MinesweeperGame # Import MrKelly's Game
 
@@ -10,12 +11,11 @@ wumpus_game = HuntTheWumpus()
 scissors_paper_rock = ScissorsPaperRock()
 guessing_game = NumberGuessingGame() 
 snake_game = SnakeGame()
-
-ms = MinesweeperGame() # Instantiate Mr Kell's Game
-
-from tetris import TetrisGame
+tetris_game = TetrisGame()
 wumpus_game = HuntTheWumpus()
 scissors_paper_rock = ScissorsPaperRock()
+ms = MinesweeperGame() # Instantiate Mr Kell's Game
+
 app = Flask(__name__)
 
 direction = "Right"
