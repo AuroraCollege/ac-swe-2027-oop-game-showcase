@@ -143,4 +143,6 @@ class MinesweeperGame:
         self.grid.showGrid()
 
 g = MinesweeperGame()
-g.debug()
+
+if __name__ == "__main__":
+    g.debug()
