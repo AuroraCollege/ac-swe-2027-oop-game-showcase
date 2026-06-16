@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request
 from wumpus import HuntTheWumpus
 from ScissorsPaperRock import ScissorsPaperRock
+from NumberGuessingGame import NumberGuessingGame
 
 from minesweeper import MinesweeperGame # Import MrKelly's Game
 
 wumpus_game = HuntTheWumpus()
 scissors_paper_rock = ScissorsPaperRock()
+guessing_game = NumberGuessingGame()
 
 ms = MinesweeperGame() # Instantiate Mr Kell's Game
 
@@ -74,6 +76,15 @@ def tetris_input(input):
         if input == 'hard_drop':
             tetris_game.hard_drop()
     return ''
+
+# Declan G's Game:
+@app.route('/guess', methods=['POST', 'GET'])
+def guess():
+    if request.method == 'POST':
+        message = guessing_game.play_turn(request.form)
+    else:
+        message = guessing_game.new_game()
+    return render_template('NumberGuessingGame.html', message=message, game=guessing_game)
 
 if __name__ == "__main__":
     app.run()
