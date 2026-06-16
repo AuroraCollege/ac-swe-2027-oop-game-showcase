@@ -1,0 +1,114 @@
+{% extends 'layout.html' %} <!-- Must inherit the top bar of the layout -->
+
+{% block body %}
+<style>
+    td {
+        padding: 0.5rem;
+        height: 30px; 
+        width: 30px;
+    }
+    .wall {
+        background-color: black;
+    }
+    .cell {
+        background-color: white;
+    }
+    .snake {
+        background-color: green;
+    }
+    .apple { 
+        background-color: red
+    }
+</style>
+<body>
+    <div class="container"> 
+        <p>
+        <h1> Snake! </h1>
+        <p>
+        <div class="message"> {{ message }} </div>
+        <p>
+        <p>
+        <button onclick="new_game()">New Game</button>
+        <p>
+        <div id="board"> 
+            {% include 'snake_board.html' %}
+        </div> 
+    </div>
+ 
+<script>
+
+let gameLoop = null;
+
+async function new_game() {
+
+    await fetch("/snake/reset");
+
+    if (gameLoop !== null) {
+        clearInterval(gameLoop);
+        gameLoop = null;
+    }
+
+    loop();
+}
+
+function loop() {
+
+    if (gameLoop !== null) {
+        return;
+    }
+
+gameLoop = setInterval(async function() {
+
+    const response = await fetch("/snake/update");
+    const result = await response.text();
+
+    if (result === "Game Over") {
+        clearInterval(gameLoop);
+        gameLoop = null;
+        alert("Game Over!");
+        return;
+    } 
+
+    if (result === "Game Won") { 
+        clearInterval(gameloop);
+        gameLoop = null; 
+        alert("You Win!");
+        return;
+    }
+
+    const boardResponse = await fetch("/snake/board");
+    const html = await boardResponse.text();
+
+    document.getElementById("board").innerHTML = html;
+
+}, 275);
+
+document.addEventListener("keydown", async function(event) {
+
+    let direction = null;
+
+    if (event.key === "w") {
+        direction = "Up";
+    }
+    else if (event.key === "s") {
+        direction = "Down";
+    }
+    else if (event.key === "a") {
+        direction = "Left";
+    }
+    else if (event.key === "d") {
+        direction = "Right";
+    }
+
+    if (direction) {
+        await fetch(`/snake/direction/${direction}`);
+    }
+
+});
+
+}
+</script>
+
+</body>
+
+{% endblock %}
