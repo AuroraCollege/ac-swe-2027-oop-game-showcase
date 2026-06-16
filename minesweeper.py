@@ -101,13 +101,14 @@ class MinesweeperGame:
     def click(self, id):
         i = int(id[0])
         j = int(id[1])
-        if self.grid.grid[i][j].number == 0:
-            self.clickAdjacentZeros(i, j)
-        if self.grid.grid[i][j].click():
-            self.endGame()
-        elif not self.grid.freeGroundRemains():
-            self.won = True
-            self.endGame()
+        if self.gameOver == False:
+            if self.grid.grid[i][j].number == 0:
+                self.clickAdjacentZeros(i, j)
+            if self.grid.grid[i][j].click():
+                self.endGame()
+            elif not self.grid.freeGroundRemains():
+                self.won = True
+                self.endGame()
 
     def clickAdjacentZeros(self, a, b):
         rows = [a]
