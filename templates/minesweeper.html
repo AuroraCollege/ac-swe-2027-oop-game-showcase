@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block body %} 
+<style>
+    td {
+        padding: 0.5rem;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>Minesweeper</h1>
+        {% if game.won %}
+        <h2>Congratulations - You won!</h2>
+        {% endif %}
+        <div>
+        {% for row in game.grid.grid %}
+            <p>
+            {% for cell in row %}
+                {% if cell.show() == '?' %}
+                <a href="/minesweeper?id={{cell.id}}">
+                    <button type="button" class="btn btn-secondary btn-lg">{{ cell.show() }}</button>
+                </a>
+                {% elif cell.show() == 'X' %}
+                <a href="/minesweeper?id={{cell.id}}">
+                    <button type="button" class="btn btn-danger btn-lg">{{ cell.show() }}</button>
+                </a>
+                {% else %}
+                <a href="/minesweeper?id={{cell.id}}">
+                    <button type="button" class="btn btn-light btn-lg">{{ cell.show() }}</button>
+                </a>
+                {% endif %}
+            {% endfor %}
+            </p>
+        {% endfor %}
+        </div>
+        <a href="/minesweeper?new=1">New Game</a>
+
+        <form class="card p-4 shadow-sm" action="/minesweeper" method="post">
+            <label for="size">Grid size:</label>
+            <select id="size", name="size">
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+            </select>
+        <hr>
+            <label for="mines">Number of mines:</label>
+            <select id="mines", name="mines">
+                <option>4</option>
+                <option>8</option>
+                <option>12</option>
+                <option>16</option>
+            </select>
+            <button type="submit">New Game</button>
+        </form>
+    </div>
+</body>
+
+{% endblock %}
